@@ -4661,9 +4661,6 @@ static int fg_power_get_property(struct power_supply *psy,
 		val->intval = get_sram_prop_now(chip, FG_DATA_BATT_ESR_COUNT);
 		break;
 	case POWER_SUPPLY_PROP_CYCLE_COUNT:
-		if (external_fg && external_fg->get_battery_cycles)
-			val->intval = external_fg->get_battery_cycles();
-		else
 			val->intval = fg_get_cycle_count(chip);
 		break;
 	case POWER_SUPPLY_PROP_CYCLE_COUNT_ID:

@@ -821,19 +821,6 @@ static int bq27541_battery_fcc(struct bq27541_device_info *di)
 	return fcc_mah;
 }
 
-/* Cycle count */
-static int bq27541_battery_cycles(struct bq27541_device_info *di)
-{
-	int ret, cycle_count;
-
-	ret = bq27541_read(BQ27541_REG_CC, &cycle_count, 0, di);
-	if (ret) {
-		dev_err(di->dev, "error reading cycle count, ret: %d\n", ret);
-		return 0;
-	}
-
-	return cycle_count;
-}
 
 static int bq27541_get_battery_mvolts(void)
 {
@@ -933,11 +920,6 @@ static int bq27541_get_battery_fcc(void)
 	return bq27541_battery_fcc(bq27541_di);
 }
 
-static int bq27541_get_battery_cycles(void)
-{
-	return bq27541_battery_cycles(bq27541_di);
-}
-
 static struct external_battery_gauge bq27541_batt_gauge = {
 	.get_battery_mvolts     = bq27541_get_battery_mvolts,
 	.get_battery_temperature    = bq27541_get_battery_temperature,
@@ -953,7 +935,6 @@ static struct external_battery_gauge bq27541_batt_gauge = {
 	.fast_chg_started_status	= bq27541_get_fastchg_started_status,
 	.get_4p4v_battery_present	= bq27541_get_4p4v_battery_present,
 	.get_battery_fcc		= bq27541_get_battery_fcc,
-	.get_battery_cycles		= bq27541_get_battery_cycles,
 };
 #define BATTERY_SOC_UPDATE_MS 6000
 #define RESUME_SCHDULE_SOC_UPDATE_WORK_MS 60000
